@@ -1,0 +1,5 @@
+Sender Email: example_sender_email@email.com
+Sender Password: sendersdifficultpassword
+Recpeint Email: example_recepeint_email@email.com
+Send update email in (hours): 24
+Check for course availability every (seconds): 10
