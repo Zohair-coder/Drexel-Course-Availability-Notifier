@@ -13,7 +13,7 @@ CONTEXT = ssl.create_default_context()
 
 
 def getConfig():
-    configuration_text = open("CONFIG.txt", "r")
+    configuration_text = open("CONFIG_DEV.txt", "r")
     configuration_list = []
     for info in configuration_text.readlines():
         configuration_list.append(info.split(": ")[1][:-1])
@@ -32,8 +32,8 @@ TIMEOUT = int(CONFIG[4])
 
 def courseAvailabilityNotifier(url):
     begin_time = datetime.datetime.now()
-    message = "You have started the Drexel Course Availability program. You will receive updates on your course every {} hours.".format(
-        UPDATE_IN)
+    message = "You have started the Drexel Course Availability program on {}. You will receive updates on your course every {} hours.".format(
+        begin_time, UPDATE_IN)
     sendMessage("Course Availability Email",
                 message)
     print("Checking for available seats every {} seconds...".format(TIMEOUT))
