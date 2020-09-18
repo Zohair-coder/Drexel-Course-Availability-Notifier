@@ -39,7 +39,7 @@ def courseAvailabilityNotifier(url):
     print("Checking for available seats every {} seconds...".format(TIMEOUT))
     while True:
         try:
-            raw_data = requests.get(url)
+            raw_data = requests.get(url, timeout=10)
         except:
             print(
                 "Error while requesting data. Trying again in {} seconds".format(TIMEOUT))
