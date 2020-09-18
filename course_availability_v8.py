@@ -13,7 +13,7 @@ CONTEXT = ssl.create_default_context()
 
 
 def getConfig():
-    configuration_text = open("CONFIG_DEV.txt", "r")
+    configuration_text = open("CONFIG.txt", "r")
     configuration_list = []
     for info in configuration_text.readlines():
         configuration_list.append(info.split(": ")[1][:-1])
