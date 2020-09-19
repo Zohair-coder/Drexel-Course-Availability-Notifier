@@ -9,13 +9,20 @@ from sys import argv
 from sys import exit
 
 PORT = 465  # For SSL
-CONTEXT = ssl.create_default_context()
+CONTEXT = ssl.create_default_context()  # required for sendMail function
 
 
+# get the configuration filled out by the user in the CONFIG.txt file and store the values into a list called configuration_list
 def getConfig():
-    configuration_text = open("CONFIG.txt", "r")
+    # if CONFIG.txt exists, open it. Otherwise throw an error.
+    try:
+        configuration_text = open("CONFIG.txt", "r")
+    except:
+        raise Exception(
+            'CONFIG.txt not found. Are you sure you renamed CONFIG_DEV.txt to CONFIG.txt before starting the program?')
     configuration_list = []
     for info in configuration_text.readlines():
+        # separate the prompt from the value in CONFIG.txt. Remove the \n at the end.
         configuration_list.append(info.split(": ")[1][:-1])
     configuration_text.close()
     return configuration_list
@@ -23,6 +30,7 @@ def getConfig():
 
 CONFIG = getConfig()
 
+# store the information from CONFIG.txt into global variables
 SENDER_EMAIL = CONFIG[0]
 PASSWORD = CONFIG[1]
 RECEIVER_EMAIL = CONFIG[2]
@@ -31,13 +39,17 @@ TIMEOUT = int(CONFIG[4])
 
 
 def courseAvailabilityNotifier(url, find_course):
+    # start counting the time
     begin_time = datetime.datetime.now()
+
+    # send an email to let the user know that everything is working in order
     message = "You have started the Drexel Course Availability program. You will receive updates on {} every {} hours.".format(
         find_course[0] + ' ' + find_course[1], UPDATE_IN)
     sendMessage("Course Availability Email",
                 message)
     print("Checking for available seats every {} seconds...".format(TIMEOUT))
     while True:
+        # request data from the URL and create a soup
         try:
             raw_data = requests.get(url, timeout=10)
         except:
