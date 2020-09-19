@@ -114,8 +114,8 @@ def getData(data, soup):
 
 def main():
     from course_url_finder_v2 import find_course_url
-    url = find_course_url()
-    courseAvailabilityNotifier(url)
+    url, find_course = find_course_url()
+    courseAvailabilityNotifier(url, find_course)
 
 
 if __name__ == "__main__":
