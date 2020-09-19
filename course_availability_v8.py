@@ -30,10 +30,10 @@ UPDATE_IN = int(CONFIG[3])
 TIMEOUT = int(CONFIG[4])
 
 
-def courseAvailabilityNotifier(url):
+def courseAvailabilityNotifier(url, find_course):
     begin_time = datetime.datetime.now()
-    message = "You have started the Drexel Course Availability program on {}. You will receive updates on your course every {} hours.".format(
-        begin_time, UPDATE_IN)
+    message = "You have started the Drexel Course Availability program. You will receive updates on {} every {} hours.".format(
+        find_course[0] + ' ' + find_course[1], UPDATE_IN)
     sendMessage("Course Availability Email",
                 message)
     print("Checking for available seats every {} seconds...".format(TIMEOUT))
