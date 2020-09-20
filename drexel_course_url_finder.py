@@ -6,7 +6,7 @@ import re
 base_url = "https://termmasterschedule.drexel.edu"
 
 
-def find_course_url():
+def find():
 
     printColleges()
     chosen_college = input("Please select your college index: ")
@@ -83,4 +83,4 @@ def findSections(courses_data, find_course):
 
 
 if __name__ == "__main__":
-    print("URL:", find_course_url())
+    print("URL:", find())

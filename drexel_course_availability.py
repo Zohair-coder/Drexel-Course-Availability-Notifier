@@ -38,7 +38,7 @@ UPDATE_IN = int(CONFIG[3])
 TIMEOUT = int(CONFIG[4])
 
 
-def courseAvailabilityNotifier(url, find_course):
+def Notifier(url, find_course):
     # start counting the time
     begin_time = datetime.datetime.now()
 
@@ -58,6 +58,7 @@ def courseAvailabilityNotifier(url, find_course):
             sleep(10)
             continue
         soup = BeautifulSoup(raw_data.content, "html.parser")
+
         course = getData("Subject Code", soup) + " " + \
             getData("Course Number", soup)
         status = getData("Enroll", soup)
@@ -125,9 +126,9 @@ def getData(data, soup):
 
 
 def main():
-    from course_url_finder_v2 import find_course_url
-    url, find_course = find_course_url()
-    courseAvailabilityNotifier(url, find_course)
+    url = input("URL: ")
+    find_course = input("Course code: ")
+    Notifier(url, find_course)
 
 
 if __name__ == "__main__":
