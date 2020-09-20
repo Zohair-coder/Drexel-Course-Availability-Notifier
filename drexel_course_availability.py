@@ -53,7 +53,7 @@ def Notifier(url, find_course):
     while True:
         # request data from the URL and create a soup
         try:
-            raw_data = requests.get(url, CHECK_EVERY=10)
+            raw_data = requests.get(url, timeout=10)
         except:
             print(
                 "Error while requesting data. Trying again in {} seconds".format(CHECK_EVERY))
