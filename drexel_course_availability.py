@@ -32,10 +32,12 @@ CONFIG = getConfig()
 
 # store the information from CONFIG.txt into global variables
 SENDER_EMAIL = CONFIG[0]
-PASSWORD = CONFIG[1]
+SENDER_PASSWORD = CONFIG[1]
 RECEIVER_EMAIL = CONFIG[2]
-UPDATE_IN = int(CONFIG[3])
-TIMEOUT = int(CONFIG[4])
+# send an email every NOTIFY_IN amount of hours to let them know the program is running and has not found an open seat yet
+NOTIFY_IN = int(CONFIG[3])
+# check the Drexel website every CHECK_EVERY amount of seconds
+CHECK_EVERY = int(CONFIG[4])
 
 
 def Notifier(url, find_course):
@@ -44,17 +46,17 @@ def Notifier(url, find_course):
 
     # send an email to let the user know that everything is working in order
     message = "You have started the Drexel Course Availability program. You will receive updates on {} every {} hours.".format(
-        find_course[0] + ' ' + find_course[1], UPDATE_IN)
+        find_course[0] + ' ' + find_course[1], NOTIFY_IN)
     sendMessage("Course Availability Email",
                 message)
-    print("Checking for available seats every {} seconds...".format(TIMEOUT))
+    print("Checking for available seats every {} seconds...".format(CHECK_EVERY))
     while True:
         # request data from the URL and create a soup
         try:
-            raw_data = requests.get(url, timeout=10)
+            raw_data = requests.get(url, CHECK_EVERY=10)
         except:
             print(
-                "Error while requesting data. Trying again in {} seconds".format(TIMEOUT))
+                "Error while requesting data. Trying again in {} seconds".format(CHECK_EVERY))
             sleep(10)
             continue
         soup = BeautifulSoup(raw_data.content, "html.parser")
@@ -78,7 +80,7 @@ def Notifier(url, find_course):
         if reset_time:
             begin_time = datetime.datetime.now()
 
-        sleep(TIMEOUT)
+        sleep(CHECK_EVERY)
 
 
 def sendMessage(subject, message):
@@ -91,7 +93,7 @@ def sendMessage(subject, message):
     while not sent:
         try:
             with smtplib.SMTP_SSL("smtp.gmail.com", PORT, context=CONTEXT) as server:
-                server.login(SENDER_EMAIL, PASSWORD)
+                server.login(SENDER_EMAIL, SENDER_PASSWORD)
                 server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL,
                                 message.as_string())
                 sent = True
@@ -107,8 +109,8 @@ def updateNotification(begin_time, message, course):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
 
-    if hours >= UPDATE_IN:
-        message = "{} Hour Update: {}".format(UPDATE_IN, message)
+    if hours >= NOTIFY_IN:
+        message = "{} Hour Update: {}".format(NOTIFY_IN, message)
         subject = "{} Availability Update".format(course)
         sendMessage(subject, message)
         print("Update sent")
