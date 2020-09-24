@@ -42,7 +42,7 @@ def findCourse(chosen_college, find_course):
     college_soup = BeautifulSoup(college_data.content, "html.parser")
 
     links = college_soup.select("a")
-    pattern = "\((.*?)\)"
+    pattern = "\\((.*?)\\)"
     for link in links:
         course_name = link.get_text()
         code = re.search(pattern, course_name)
