@@ -121,6 +121,10 @@ def getData(data, soup):
 
 
 def getSoup(url):
+    """
+    Function that takes a url as input and returns the soup as output.
+    If there's an error in fetching data, it requests it again after CHECK_EVERY seconds.
+    """
     getting_data = True
     while getting_data:
         try:
@@ -132,11 +136,6 @@ def getSoup(url):
             sleep(10)
     soup = BeautifulSoup(raw_data.content, "html.parser")
     return soup
-
-    """
-    Function that takes a url as input and returns the soup as output.
-    Returns None if there's an error in fetching data.
-    """
 
 
 def main():
