@@ -23,7 +23,7 @@ def find():
     final_course_index = int(input("Please select the course index: "))
     final_course_url = shortlisted_urls[final_course_index][0]
 
-    return(base_url + final_course_url["href"]), find_course
+    return(base_url + final_course_url["href"])
 
 
 def printColleges():

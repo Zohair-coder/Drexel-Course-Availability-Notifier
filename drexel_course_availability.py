@@ -40,26 +40,19 @@ NOTIFY_IN = int(CONFIG[3])
 CHECK_EVERY = int(CONFIG[4])
 
 
-def Notifier(url, find_course):
+def Notifier(url):
     # start counting the time
     begin_time = datetime.datetime.now()
 
+    soup = getSoup(url)
     # send an email to let the user know that everything is working in order
-    message = "You have started the Drexel Course Availability program. You will receive updates on {} every {} hours.".format(
-        find_course[0] + ' ' + find_course[1], NOTIFY_IN)
+    message = "You have started the Drexel Course Availability program. You will receive updates on {} {} every {} hours.".format(
+        getData("Subject Code", soup), getData("Course Number", soup), NOTIFY_IN)
     sendMessage("Course Availability Email",
                 message)
     print("Checking for available seats every {} seconds...".format(CHECK_EVERY))
     while True:
-        # request data from the URL and create a soup
-        try:
-            raw_data = requests.get(url, timeout=10)
-        except:
-            print(
-                "Error while requesting data. Trying again in {} seconds".format(CHECK_EVERY))
-            sleep(10)
-            continue
-        soup = BeautifulSoup(raw_data.content, "html.parser")
+        soup = getSoup(url)
 
         course = getData("Subject Code", soup) + " " + \
             getData("Course Number", soup)
@@ -127,10 +120,28 @@ def getData(data, soup):
     return status
 
 
+def getSoup(url):
+    getting_data = True
+    while getting_data:
+        try:
+            raw_data = requests.get(url, timeout=10)
+            getting_data = False
+        except:
+            print(
+                "Error while requesting data. Trying again in {} seconds".format(CHECK_EVERY))
+            sleep(10)
+    soup = BeautifulSoup(raw_data.content, "html.parser")
+    return soup
+
+    """
+    Function that takes a url as input and returns the soup as output.
+    Returns None if there's an error in fetching data.
+    """
+
+
 def main():
     url = input("URL: ")
-    find_course = input("Course code: ")
-    Notifier(url, find_course)
+    Notifier(url)
 
 
 if __name__ == "__main__":
