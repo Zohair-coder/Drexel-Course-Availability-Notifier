@@ -3,18 +3,24 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-base_url = "https://termmasterschedule.drexel.edu"
+BASE_URL = "https://termmasterschedule.drexel.edu"
+PAYLOAD = {'component': 'collSubj',
+           'page': 'CollegesSubjects', 'service': 'direct'}
+COMPONENT = "component=collSubj"
+PAGE = "page=CollegesSubjects"
+SERVICE = "service=direct"
+SP2 = ""
 
 
 def find():
-
+    sp1 = printAndFindSeasonSP1()
     printColleges()
     chosen_college = input("Please select your college index: ")
     find_course = input("Please enter the course code (EXMPL 101): ")
     # creates list with first element containing code string and second element containing code number
-    find_course = find_course.split()
     print("Finding your course name...")
-    courses_data = findCourse(chosen_college, find_course)
+    find_course = find_course.split()
+    courses_data = findCourse(chosen_college, find_course, sp1)
     print("Done.")
     print("Finding all sections of your course...")
     shortlisted_urls = findSections(courses_data, find_course)
@@ -23,7 +29,7 @@ def find():
     final_course_index = int(input("Please select the course index: "))
     final_course_url = shortlisted_urls[final_course_index][0]
 
-    return(base_url + final_course_url["href"])
+    return(BASE_URL + final_course_url["href"])
 
 
 def printColleges():
@@ -33,11 +39,12 @@ def printColleges():
         print(index, "    ", college)
 
 
-def findCourse(chosen_college, find_course):
-    url = "https://termmasterschedule.drexel.edu/webtms_du/app?component=subjects&page=CourseDetails&service=direct&sp=ZH4sIAAAAAAAAADWLOw7CMBAFlyA%2BNaInF8B2LFFRgqjSIHKBJV5FQXZI7A2k4kRcjTtgFPHKeTPvD8yChw2ZXhhPA1lRexZPurILwiCjKMg7GDdJYJrDAksuakcM6%2FyGD5Shs%2FIHAqNr9zksOSaHu4nGajQsNpW8sK%2Bb6v8fKZQdvCAZ2pZhrpVW2S4GJ7Q2Pffoo5RqtdXZFwRRPMmkAAAA&sp={}".format(
-        chosen_college)
+def findCourse(chosen_college, find_course, sp1):
 
-    college_data = requests.get(url)
+    sp2 = "sp={}".format(chosen_college)
+    college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
+        BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
+    college_data = requests.get(college_url)
 
     college_soup = BeautifulSoup(college_data.content, "html.parser")
 
@@ -50,7 +57,7 @@ def findCourse(chosen_college, find_course):
             code = code.group(1)
             if find_course[0] == code:
                 courses_data = requests.get(
-                    base_url + link['href'])
+                    BASE_URL + link['href'])
     return courses_data
 
 
@@ -80,6 +87,30 @@ def findSections(courses_data, find_course):
             print(data, end="  ")
         print()
     return shortlisted_course_urls
+
+
+def printAndFindSeasonSP1():
+    raw_data = requests.get(BASE_URL)
+    soup = BeautifulSoup(raw_data.content, "html.parser")
+
+    links = soup.select("a")
+
+    seasons_links = []
+    for link in links:
+        if "Quarter" in link.get_text():
+            seasons_links.append(link)
+            print(len(seasons_links), link.get_text())
+
+    print()
+    season_choice_index = int(input("Select the index: "))
+    final_link = seasons_links[season_choice_index - 1]['href']
+
+    variables = final_link.split('&')
+
+    for variable in variables:
+        if 'sp' in variable:
+            sp1 = variable
+    return sp1
 
 
 if __name__ == "__main__":
