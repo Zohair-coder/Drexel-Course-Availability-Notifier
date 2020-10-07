@@ -2,6 +2,7 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup
 import re
+import sys
 
 BASE_URL = "https://termmasterschedule.drexel.edu"
 PAYLOAD = {'component': 'collSubj',
@@ -40,7 +41,7 @@ def printAndInputColleges():
 
 
 def findCourse(chosen_college, target_course, sp1):
-
+    courses_data = None
     sp2 = "sp={}".format(chosen_college)
     college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
         BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
@@ -59,7 +60,8 @@ def findCourse(chosen_college, target_course, sp1):
                 courses_data = requests.get(
                     BASE_URL + link['href'])
                 break
-
+    if not courses_data:
+        sys.exit("Course {} not found.".format(target_course[0]))
     return courses_data
 
 
@@ -75,6 +77,9 @@ def findSections(courses_data, target_course):
                 if row.get_text():
                     shortlisted_course_data.append(row.get_text())
                     shortlisted_course_urls.append(row.select("a"))
+    if len(shortlisted_course_urls) == 0:
+        sys.exit("No sections found for your course {}{} were found.".format(
+            target_course[0], target_course[1]))
 
     aesthetic_course_data = []
     for info in shortlisted_course_data:
