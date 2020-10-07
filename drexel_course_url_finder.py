@@ -14,31 +14,32 @@ SP2 = ""
 
 def find():
     sp1 = printAndFindSeasonSP1()
-    printColleges()
-    chosen_college = inputIndex()
+    chosen_college = printAndInputColleges()
     # creates list with first element containing code string and second element containing code number
+    target_course = inputCourse()
     print("Finding your course name...")
-    find_course = inputCourse()
-    courses_data = findCourse(chosen_college, find_course, sp1)
+    courses_data = findCourse(chosen_college, target_course, sp1)
     print("Done.")
     print("Finding all sections of your course...")
-    shortlisted_urls = findSections(courses_data, find_course)
+    shortlisted_urls = findSections(courses_data, target_course)
     print("Done.")
 
-    final_course_index = int(input("Please select the course index: "))
+    final_course_index = inputIndex(max=len(shortlisted_urls) - 1)
     final_course_url = shortlisted_urls[final_course_index][0]
 
     return(BASE_URL + final_course_url["href"])
 
 
-def printColleges():
+def printAndInputColleges():
     colleges = {"Antoinette Westphal COMAD": 0,
                 "Arts and Sciences": 1, "Bennett S. LeBow Coll. of Bus.": 2, "Center for Civic Engagement": 3, "Close Sch of Entrepreneurship": 4, "Col of Computing & Informatics": 5, "College of Engineering": 6, "Dornsife Sch of Public Health": 7, "Goodwin Coll of Prof Studies": 8, "Graduate College": 9, "Miscellaneous": 10, "Nursing & Health Professions": 11, "Pennoni Honors College": 12, "Sch.of Biomed Engr,Sci & Hlth": 13, "School of Education": 14}
     for college, index in colleges.items():
         print(index, "    ", college)
+    chosen_college = inputIndex(max=len(colleges) - 1)
+    return chosen_college
 
 
-def findCourse(chosen_college, find_course, sp1):
+def findCourse(chosen_college, target_course, sp1):
 
     sp2 = "sp={}".format(chosen_college)
     college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
@@ -54,13 +55,15 @@ def findCourse(chosen_college, find_course, sp1):
         code = re.search(pattern, course_name)
         if code:
             code = code.group(1)
-            if find_course[0] == code:
+            if target_course[0] == code:
                 courses_data = requests.get(
                     BASE_URL + link['href'])
+                break
+
     return courses_data
 
 
-def findSections(courses_data, find_course):
+def findSections(courses_data, target_course):
     courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
 
@@ -68,7 +71,7 @@ def findSections(courses_data, find_course):
     shortlisted_course_urls = []
     for row in table_rows:
         for data in row:
-            if find_course[1] in data:
+            if target_course[1] in data:
                 if row.get_text():
                     shortlisted_course_data.append(row.get_text())
                     shortlisted_course_urls.append(row.select("a"))
@@ -98,11 +101,11 @@ def printAndFindSeasonSP1():
     for link in links:
         if "Quarter" in link.get_text():
             seasons_links.append(link)
-            print(len(seasons_links), link.get_text())
+            print(len(seasons_links) - 1, link.get_text())
 
     print()
-    season_choice_index = inputIndex()
-    final_link = seasons_links[season_choice_index - 1]['href']
+    season_choice_index = inputIndex(max=len(seasons_links) - 1)
+    final_link = seasons_links[season_choice_index]['href']
 
     variables = final_link.split('&')
 
@@ -137,21 +140,24 @@ def inputCourse():
     return course
 
 
-def inputIndex():
+def inputIndex(max=float('inf')):
     """
     Function that prompts the user to input the index from the list printed.
     If the input is not a number, the user is prompted to enter it again.
 
-    Arguments: None
+    Arguments: maximum index allowed (integer)
 
-    Returns: index of type integer
+    Returns: index (integer)
     """
     isValid = False
 
     while not isValid:
         index = input("Please select the index: ")
         if index.isnumeric():
-            isValid = True
+            if int(index) >= 0 and int(index) <= max:
+                isValid = True
+            else:
+                print("Invalid input.")
         else:
             print("Invalid input.")
     return int(index)
