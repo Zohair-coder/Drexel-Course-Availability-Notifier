@@ -15,7 +15,7 @@ SP2 = ""
 def find():
     sp1 = printAndFindSeasonSP1()
     printColleges()
-    chosen_college = input("Please select your college index: ")
+    chosen_college = inputIndex()
     # creates list with first element containing code string and second element containing code number
     print("Finding your course name...")
     find_course = inputCourse()
@@ -101,7 +101,7 @@ def printAndFindSeasonSP1():
             print(len(seasons_links), link.get_text())
 
     print()
-    season_choice_index = int(input("Select the index: "))
+    season_choice_index = inputIndex()
     final_link = seasons_links[season_choice_index - 1]['href']
 
     variables = final_link.split('&')
@@ -135,6 +135,26 @@ def inputCourse():
     if course[0].islower():
         course[0] = course[0].upper()
     return course
+
+
+def inputIndex():
+    """
+    Function that prompts the user to input the index from the list printed.
+    If the input is not a number, the user is prompted to enter it again.
+
+    Arguments: None
+
+    Returns: index of type integer
+    """
+    isValid = False
+
+    while not isValid:
+        index = input("Please select the index: ")
+        if index.isnumeric():
+            isValid = True
+        else:
+            print("Invalid input.")
+    return int(index)
 
 
 if __name__ == "__main__":
