@@ -25,6 +25,7 @@ pip install ssl
 ```
 ## Usage
 ![GIF of program usage](https://media0.giphy.com/media/fcnwUbXuJ1cd4UyLQE/giphy.gif)
+
 In the working directory, open up a terminal and type:
 ```
 python main.py
