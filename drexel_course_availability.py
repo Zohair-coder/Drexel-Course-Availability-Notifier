@@ -97,6 +97,8 @@ def sendMessage(subject, message):
 
 
 def updateNotification(begin_time, message, course):
+    if not NOTIFY_IN:
+        return False
     elapsed = datetime.datetime.now() - begin_time
     seconds = elapsed.days*86400 + elapsed.seconds  # drop microseconds
     minutes, seconds = divmod(seconds, 60)
