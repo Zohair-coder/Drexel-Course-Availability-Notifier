@@ -25,7 +25,7 @@ pip install ssl
 
 ```
 ## Usage
-
+![GIF of program usage](https://media0.giphy.com/media/fcnwUbXuJ1cd4UyLQE/giphy.gif)
 In the working directory, open up a terminal and type:
 ```
 python main.py
@@ -38,7 +38,6 @@ And follow the prompts.
 * Add error messages for incorrect email/password.
 * Avoid enabling access for "less secure apps" somehow.
 * Add more comments to the code.
-* Add a gif to the README.md to show how to operate the program. 
 
 ## Contributing
 
