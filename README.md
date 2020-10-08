@@ -35,6 +35,8 @@ And follow the prompts.
 ## To-do
 
 * Find a way to log-in to one.drexel.edu and check the class status in real time instead of relying on the Term Master website which gets updated every few hours.
+* Explore whether there's a way to register for the selected class automatically when a seat is available.
+* Find a way to avoid the prompt that asks for the college the course is in.
 * Add error messages for incorrect email/password.
 * Avoid enabling access for "less secure apps" somehow.
 * Add more comments to the code.
