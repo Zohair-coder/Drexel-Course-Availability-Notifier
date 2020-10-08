@@ -22,7 +22,6 @@ Next, install the dependencies using the following commands:
 pip install requests
 pip install bs4
 pip install ssl
-
 ```
 ## Usage
 ![GIF of program usage](https://media0.giphy.com/media/fcnwUbXuJ1cd4UyLQE/giphy.gif)
