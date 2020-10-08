@@ -36,7 +36,9 @@ And follow the prompts.
 
 * Find a way to log-in to one.drexel.edu and check the class status in real time instead of relying on the Term Master website which gets updated every few hours.
 * Add error messages for incorrect email/password.
-* Avoid enabling access for "less secure apps" somehow. 
+* Avoid enabling access for "less secure apps" somehow.
+* Add more comments to the code.
+* Add a gif to the README.md to show how to operate the program. 
 
 ## Contributing
 
