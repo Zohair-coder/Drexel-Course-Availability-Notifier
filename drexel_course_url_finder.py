@@ -14,6 +14,13 @@ SP2 = ""
 
 
 def find():
+    """
+    Main function of this module that finds the URL of a course input by the user.
+
+    Arguments: None
+
+    Returns: URL (string)
+    """
     sp1 = printAndFindSeasonSP1()
     chosen_college = printAndInputColleges()
     # creates list with first element containing code string and second element containing code number
@@ -32,6 +39,13 @@ def find():
 
 
 def printAndInputColleges():
+    """
+    Prints all colleges and asks the user to input the index of the chosen college.
+
+    Arguments: None
+
+    Returns: index of the college chosen by the user (integer)
+    """
     colleges = {"Antoinette Westphal COMAD": 0,
                 "Arts and Sciences": 1, "Bennett S. LeBow Coll. of Bus.": 2, "Center for Civic Engagement": 3, "Close Sch of Entrepreneurship": 4, "Col of Computing & Informatics": 5, "College of Engineering": 6, "Dornsife Sch of Public Health": 7, "Goodwin Coll of Prof Studies": 8, "Graduate College": 9, "Miscellaneous": 10, "Nursing & Health Professions": 11, "Pennoni Honors College": 12, "Sch.of Biomed Engr,Sci & Hlth": 13, "School of Education": 14}
     for college, index in colleges.items():
