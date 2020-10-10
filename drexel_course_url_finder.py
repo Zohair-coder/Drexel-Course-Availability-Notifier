@@ -10,7 +10,6 @@ PAYLOAD = {'component': 'collSubj',
 COMPONENT = "component=collSubj"
 PAGE = "page=CollegesSubjects"
 SERVICE = "service=direct"
-SP2 = ""
 
 
 def find():
@@ -19,7 +18,7 @@ def find():
 
     Arguments: None
 
-    Returns: URL (string)
+    Returns: URL of the course page (string)
     """
     sp1 = printAndFindSeasonSP1()
     chosen_college = printAndInputColleges()
@@ -55,6 +54,19 @@ def printAndInputColleges():
 
 
 def findCourse(chosen_college, target_course, sp1):
+    """
+    Goes to the chosen college's page (determined by sp2) for the selected season (determined by sp1) and searches for the
+    first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to the page that 
+    contains all sections for the first part of the course code so that the second part of the course code can be found
+    at that page. Returns the data received by going to the page.
+
+    Arguments: 
+    1. The index of the college chosen by the user aka sp2 (string)
+    2. The course that the user wants to find e.g. EXMPL 101 (string) 
+    3. The part of the url that determines the quarter season aka sp1 (string)
+
+    Returns: The data of the page that contains all the sections of the first part of the target_course. 
+    """
     courses_data = None
     sp2 = "sp={}".format(chosen_college)
     college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
@@ -111,6 +123,16 @@ def findSections(courses_data, target_course):
 
 
 def printAndFindSeasonSP1():
+    """
+    Searches for all links from Drexel Term Master and displays the ones that have the text "Quarter" inside their HTML tag.
+    Prompts the user to select one of the printed Quarters.
+    Grabs the link of the selected quarter and stores the "sp" part of the URL, since this is the only part of the URL
+    that is required to identify the quarter.
+
+    Arguments: None
+
+    Returns: The "sp" part of the URL that is required to identify the quarter season (string).
+    """
     raw_data = requests.get(BASE_URL)
     soup = BeautifulSoup(raw_data.content, "html.parser")
 
