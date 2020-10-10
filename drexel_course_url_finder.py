@@ -62,10 +62,10 @@ def findCourse(chosen_college, target_course, sp1):
 
     Arguments: 
     1. The index of the college chosen by the user aka sp2 (string)
-    2. The course that the user wants to find e.g. EXMPL 101 (string) 
+    2. The course that the user wants to find e.g. EXMPL 101 (list of strings) 
     3. The part of the url that determines the quarter season aka sp1 (string)
 
-    Returns: The data of the page that contains all the sections of the first part of the target_course. 
+    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object). 
     """
     courses_data = None
     sp2 = "sp={}".format(chosen_college)
@@ -92,6 +92,18 @@ def findCourse(chosen_college, target_course, sp1):
 
 
 def findSections(courses_data, target_course):
+    """
+    Checks the page for all elements that match the second part of the target_course e.g. the 101 part in EXMPL 101.
+    Multiple elements might have this second part, since there are many classes for one course.
+    Prints all the data of the elements that match the second part. 
+    Returns the URLs of the pages of all classes that match the target_course.
+    Does not ask the user to input the class they want despite printing all the classes.
+
+    Arguments:
+    1. The data for the page that has information about the first part of target_course e.g. the EXMPL part in EXMPL 101.
+        This page has the data for all sections of EXMPL (requests object).
+    2. The target_course that the user wants to get notifications for (list of strings). 
+    """
     courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
 
