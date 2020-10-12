@@ -12,8 +12,15 @@ PORT = 465  # For SSL
 CONTEXT = ssl.create_default_context()  # required for sendMail function
 
 
-# get the configuration filled out by the user in the CONFIG.txt file and store the values into a list called configuration_list
 def getConfig():
+    """
+    get the configuration filled out by the user in the CONFIG.txt file and store the values into a list called
+    configuration_list.
+
+    Arguments: None
+
+    Returns: configuration set by user in CONFIG.txt (list) 
+    """
     # if CONFIG.txt exists, open it. Otherwise throw an error.
     try:
         configuration_text = open("CONFIG.txt", "r")
