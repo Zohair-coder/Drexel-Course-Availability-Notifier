@@ -24,10 +24,11 @@ def find():
     chosen_college = printAndInputColleges()
     # creates list with first element containing code string and second element containing code number
     target_course = inputCourse()
-    print("Finding your course name...")
+    print("Finding all {} courses...".format(target_course[0]))
     courses_data = findCourse(chosen_college, target_course, sp1)
     print("Done.")
-    print("Finding all sections of your course...")
+    print("Finding all sections of {} {}...".format(
+        target_course[0], target_course[1]))
     shortlisted_urls = findSections(courses_data, target_course)
     print("Done.")
 
