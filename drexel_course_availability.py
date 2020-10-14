@@ -11,7 +11,7 @@ from sys import exit
 PORT = 465  # For SSL
 CONTEXT = ssl.create_default_context()  # required for sendMail function
 
-
+#not the end of constants declaration.
 def getConfig():
     """
     get the configuration filled out by the user in the CONFIG.txt file and store the values into a list called
