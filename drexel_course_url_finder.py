@@ -56,15 +56,15 @@ def printAndInputColleges():
 
 def findCourse(target_course, sp1):
     """
-    Goes to the chosen college's page (determined by sp2) for the selected season (determined by sp1) and searches for the
-    first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to the page that 
-    contains all sections for the first part of the course code so that the second part of the course code can be found
-    at that page. Returns the data received by going to the page.
+    Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a 
+    unique college assigned to it. For example, sp2=5 means CCI) for the selected season (determined by sp1) and searches
+    for the first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to
+    the page that contains all sections for the first part of the course code so that the second part of the course
+    code can be found at that page. Returns the data received by going to the page.
 
     Arguments: 
-    1. The index of the college chosen by the user aka sp2 (string)
-    2. The course that the user wants to find e.g. EXMPL 101 (list of strings) 
-    3. The part of the url that determines the quarter season aka sp1 (string)
+    1. The course that the user wants to find e.g. EXMPL 101 (list of strings) 
+    2. The part of the url that determines the quarter season aka sp1 (string)
 
     Returns: The data of the page that contains all the sections of the first part of the target_course (requests object). 
     """
