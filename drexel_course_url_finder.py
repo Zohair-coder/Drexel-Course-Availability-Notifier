@@ -21,11 +21,11 @@ def find():
     Returns: URL of the course page (string)
     """
     sp1 = printAndFindSeasonSP1()
-    chosen_college = printAndInputColleges()
     # creates list with first element containing code string and second element containing code number
     target_course = inputCourse()
-    print("Finding all {} courses...".format(target_course[0]))
-    courses_data = findCourse(chosen_college, target_course, sp1)
+    print(
+        "Finding all {} courses... (wait a moment)".format(target_course[0]))
+    courses_data = findCourse(target_course, sp1)
     print("Done.")
     print("Finding all sections of {} {}...".format(
         target_course[0], target_course[1]))
@@ -54,7 +54,7 @@ def printAndInputColleges():
     return chosen_college
 
 
-def findCourse(chosen_college, target_course, sp1):
+def findCourse(target_course, sp1):
     """
     Goes to the chosen college's page (determined by sp2) for the selected season (determined by sp1) and searches for the
     first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to the page that 
@@ -69,27 +69,27 @@ def findCourse(chosen_college, target_course, sp1):
     Returns: The data of the page that contains all the sections of the first part of the target_course (requests object). 
     """
     courses_data = None
-    sp2 = "sp={}".format(chosen_college)
-    college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
-        BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
-    college_data = requests.get(college_url)
+    for checking_college in range(15):
+        sp2 = "sp={}".format(checking_college)
+        college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
+            BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
+        college_data = requests.get(college_url)
 
-    college_soup = BeautifulSoup(college_data.content, "html.parser")
+        college_soup = BeautifulSoup(college_data.content, "html.parser")
 
-    links = college_soup.select("a")
-    pattern = "\\((.*?)\\)"
-    for link in links:
-        course_name = link.get_text()
-        code = re.search(pattern, course_name)
-        if code:
-            code = code.group(1)
-            if target_course[0] == code:
-                courses_data = requests.get(
-                    BASE_URL + link['href'])
-                break
-    if not courses_data:
-        sys.exit("Course {} not found.".format(target_course[0]))
-    return courses_data
+        links = college_soup.select("a")
+        pattern = "\\((.*?)\\)"
+        for link in links:
+            course_name = link.get_text()
+            code = re.search(pattern, course_name)
+            if code:
+                code = code.group(1)
+                if target_course[0] == code:
+                    courses_data = requests.get(
+                        BASE_URL + link['href'])
+                    return courses_data
+    # if the entire loop runs and value of courses_data remains None, the following line will run. Otherwise it will not.
+    sys.exit("Course {} not found.".format(target_course[0]))
 
 
 def findSections(courses_data, target_course):
@@ -117,7 +117,7 @@ def findSections(courses_data, target_course):
                     shortlisted_course_data.append(row.get_text())
                     shortlisted_course_urls.append(row.select("a"))
     if len(shortlisted_course_urls) == 0:
-        sys.exit("No sections found for your course {}{} were found.".format(
+        sys.exit("No sections found for your course {} {} were found.".format(
             target_course[0], target_course[1]))
 
     aesthetic_course_data = []
