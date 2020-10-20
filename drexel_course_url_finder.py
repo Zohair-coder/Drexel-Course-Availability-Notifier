@@ -132,6 +132,7 @@ def findSections(courses_data, target_course):
         for data in aesthetic_course_data:
             print(data, end="  ")
         print()
+        print()
     return shortlisted_course_urls
 
 
