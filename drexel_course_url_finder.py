@@ -127,8 +127,9 @@ def findSections(courses_data, target_course):
             info.remove('')
         aesthetic_course_data.append(info)
 
+    print("\nIndex      Course Data\n")
     for index, aesthetic_course_data in enumerate(aesthetic_course_data):
-        print(index, end="  ")
+        print(index, end="          ")
         for data in aesthetic_course_data:
             print(data, end="  ")
         print()
