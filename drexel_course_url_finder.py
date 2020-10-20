@@ -38,22 +38,6 @@ def find():
     return(BASE_URL + final_course_url["href"])
 
 
-def printAndInputColleges():
-    """
-    Prints all colleges and asks the user to input the index of the chosen college.
-
-    Arguments: None
-
-    Returns: index of the college chosen by the user (integer)
-    """
-    colleges = {"Antoinette Westphal COMAD": 0,
-                "Arts and Sciences": 1, "Bennett S. LeBow Coll. of Bus.": 2, "Center for Civic Engagement": 3, "Close Sch of Entrepreneurship": 4, "Col of Computing & Informatics": 5, "College of Engineering": 6, "Dornsife Sch of Public Health": 7, "Goodwin Coll of Prof Studies": 8, "Graduate College": 9, "Miscellaneous": 10, "Nursing & Health Professions": 11, "Pennoni Honors College": 12, "Sch.of Biomed Engr,Sci & Hlth": 13, "School of Education": 14}
-    for college, index in colleges.items():
-        print(index, "    ", college)
-    chosen_college = inputIndex(max=len(colleges) - 1)
-    return chosen_college
-
-
 def findCourse(target_course, sp1):
     """
     Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a 
