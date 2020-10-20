@@ -24,7 +24,7 @@ pip install bs4
 pip install ssl
 ```
 ## Usage
-![GIF of program usage](https://media0.giphy.com/media/fcnwUbXuJ1cd4UyLQE/giphy.gif)
+![GIF of program usage](https://media.giphy.com/media/schUdfC2WqnWlZ6RD4/giphy.gif)
 
 In the working directory, open up a terminal and type:
 ```
