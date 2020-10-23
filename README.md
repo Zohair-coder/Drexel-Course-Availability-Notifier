@@ -22,6 +22,7 @@ Next, install the dependencies using the following commands:
 pip install requests
 pip install bs4
 pip install ssl
+pip install email
 ```
 ## Usage
 ![GIF of program usage](https://media.giphy.com/media/schUdfC2WqnWlZ6RD4/giphy.gif)
