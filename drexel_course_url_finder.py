@@ -93,6 +93,12 @@ def findSections(courses_data, target_course):
     courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
 
+    # for td in table_headers_html:
+    #     table_headers = td.get_text().split("\n")
+    # while '' in table_headers:
+    #     table_headers.remove('')
+    # table_headers[table_headers.index("Days \xa0/ \xa0Time")] = "Days / Time"
+    # table_headers.insert(0, "Index")
     shortlisted_course_data = []
     shortlisted_course_urls = []
     for row in table_rows:
