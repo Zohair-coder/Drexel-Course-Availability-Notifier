@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import sys
 from tabulate import tabulate
+import utility
 
 BASE_URL = "https://termmasterschedule.drexel.edu"
 PAYLOAD = {'component': 'collSubj',
@@ -33,7 +34,7 @@ def find():
     shortlisted_urls = findSections(courses_data, target_course)
     print("Done.")
 
-    final_course_index = inputIndex(max=len(shortlisted_urls) - 1)
+    final_course_index = utility.inputIndex(max=len(shortlisted_urls) - 1)
     final_course_url = shortlisted_urls[final_course_index][0]
 
     return(BASE_URL + final_course_url["href"])
@@ -150,7 +151,7 @@ def printAndFindSeasonSP1():
             seasons.append([link.get_text()])
     print()
     print(tabulate(seasons, headers=["Index", "Seasons"], showindex=True))
-    season_choice_index = inputIndex(max=len(seasons_links) - 1)
+    season_choice_index = utility.inputIndex(max=len(seasons_links) - 1)
     final_link = seasons_links[season_choice_index]['href']
 
     variables = final_link.split('&')
@@ -184,29 +185,6 @@ def inputCourse():
     if course[0].islower():
         course[0] = course[0].upper()
     return course
-
-
-def inputIndex(max=float('inf')):
-    """
-    Function that prompts the user to input the index from the list printed.
-    If the input is not a number, the user is prompted to enter it again.
-
-    Arguments: maximum index allowed (integer)
-
-    Returns: index (integer)
-    """
-    isValid = False
-
-    while not isValid:
-        index = input("Please select the index: ")
-        if index.isnumeric():
-            if int(index) >= 0 and int(index) <= max:
-                isValid = True
-            else:
-                print("Invalid input.")
-        else:
-            print("Invalid input.")
-    return int(index)
 
 
 if __name__ == "__main__":
