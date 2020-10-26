@@ -62,9 +62,8 @@ def findCourse(target_course, sp1):
         sp2 = "sp={}".format(checking_college)
         college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
             BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
-        college_data = requests.get(college_url)
 
-        college_soup = BeautifulSoup(college_data.content, "html.parser")
+        college_soup = utility.getSoup(college_url)
 
         links = college_soup.select("a")
         pattern = "\\((.*?)\\)"
@@ -143,8 +142,7 @@ def printAndFindSeasonSP1():
 
     Returns: The "sp" part of the URL that is required to identify the quarter season (string).
     """
-    raw_data = requests.get(BASE_URL)
-    soup = BeautifulSoup(raw_data.content, "html.parser")
+    soup = utility.getSoup(BASE_URL)
 
     links = soup.select("a")
 
