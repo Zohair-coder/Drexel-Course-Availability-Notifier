@@ -24,7 +24,7 @@ def find():
     """
     sp1 = printAndFindSeasonSP1()
     # creates list with first element containing code string and second element containing code number
-    target_course = inputCourse()
+    target_course = utility.inputCourse()
     print(
         "Finding all {} courses... (wait a moment)".format(target_course[0]))
     courses_data = findCourse(target_course, sp1)
@@ -160,31 +160,6 @@ def printAndFindSeasonSP1():
         if 'sp' in variable:
             sp1 = variable
     return sp1
-
-
-def inputCourse():
-    """
-    Function that prommpts the user to input the course code in the format: "EXMPL 101".
-    If the input is not valid(two words, first word composed of alphabet and second word composed of numbers), the user is asked to enter the code again.
-    If the first word is in lower-case, it is converted to uppercase.
-
-    Arguments: None
-
-    Returns: List of two elements, with the first element being EXMPL and second element being 101.
-    """
-
-    isValid = False
-    while not isValid:
-        course = input("Please enter the course code (EXMPL 101): ")
-        course = course.split()
-        if len(course) == 2 and course[0].isalpha() and course[1].isnumeric():
-            isValid = True
-        else:
-            print("Invalid input.")
-
-    if course[0].islower():
-        course[0] = course[0].upper()
-    return course
 
 
 if __name__ == "__main__":
