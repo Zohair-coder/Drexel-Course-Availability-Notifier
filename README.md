@@ -8,6 +8,10 @@ But to relieve some of your stress, this program will let you escape the whole p
 
 Go to [this](https://myaccount.google.com/lesssecureapps) link and enable access for less secure apps. If you don't feel comfortable enabling this, I suggest you make a new Google account for this program.
 
+Make sure you have Python3 and pip installed.
+
+Clone the repository by clicking the green download button on the top right corner.
+
 Next, open up CONFIG_DEV.txt and fill in the appropiate fields.
 
 - Sender Email should be the Google account you used to enable access for less secure apps.
@@ -18,7 +22,7 @@ Next, open up CONFIG_DEV.txt and fill in the appropiate fields.
 
 Now rename the CONFIG_DEV.txt file to CONFIG.txt.
 
-Next, install the dependencies using the following commands:
+Next, install the dependencies by executing this command on the terminal:
 
 ```
 pip install requests bs4 ssl email tabulate
