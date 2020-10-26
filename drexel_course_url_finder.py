@@ -105,14 +105,13 @@ def findSections(courses_data, target_course):
             target_course[0], target_course[1]))
 
     aesthetic_course_data = []
-    for index, info in enumerate(shortlisted_course_data):
+    for info in shortlisted_course_data:
         info = info.split("\n")
         while '' in info:
             info.remove('')
-        info.insert(0, index)
         aesthetic_course_data.append(info)
 
-    print(tabulate(aesthetic_course_data))
+    print(tabulate(aesthetic_course_data, showindex=True))
 
     # print("\nIndex      Course Data\n")
     # for index, aesthetic_course_data in enumerate(aesthetic_course_data):
@@ -146,9 +145,9 @@ def printAndFindSeasonSP1():
         if "Quarter" in link.get_text():
             seasons_links.append(link)
             # print(len(seasons_links) - 1, link.get_text())
-            seasons.append([len(seasons_links) - 1, link.get_text()])
+            seasons.append([link.get_text()])
     print()
-    print(tabulate(seasons, headers=["Index", "Seasons"]))
+    print(tabulate(seasons, headers=["Index", "Seasons"], showindex=True))
     season_choice_index = inputIndex(max=len(seasons_links) - 1)
     final_link = seasons_links[season_choice_index]['href']
 
