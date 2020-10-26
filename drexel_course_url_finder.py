@@ -27,10 +27,10 @@ def find():
     target_course = utility.inputCourse()
     print(
         "Finding all {} courses... \n".format(target_course[0]))
-    courses_data = findCourse(target_course, sp1)
+    courses_soup = findCourse(target_course, sp1)
     print("Finding all sections of {} {}...".format(
         target_course[0], target_course[1]))
-    shortlisted_urls = findSections(courses_data, target_course)
+    shortlisted_urls = findSections(courses_soup, target_course)
     print("Done.")
 
     final_course_index = utility.inputIndex(max=len(shortlisted_urls) - 1)
@@ -51,9 +51,9 @@ def findCourse(target_course, sp1):
     1. The course that the user wants to find e.g. EXMPL 101 (list of strings)
     2. The part of the url that determines the quarter season aka sp1 (string)
 
-    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object).
+    Returns: The data of the page that contains all the sections of the first part of the target_course (BeautifulSoup object).
     """
-    courses_data = None
+    courses_soup = None
     for checking_college in range(15):
         colleges = ["Antoinette Westphal COMAD",
                     "Arts and Sciences", "Bennett S. LeBow Coll. of Bus.", "Center for Civic Engagement", "Close Sch of Entrepreneurship", "Col of Computing & Informatics", "College of Engineering", "Dornsife Sch of Public Health", "Goodwin Coll of Prof Studies", "Graduate College", "Miscellaneous", "Nursing & Health Professions", "Pennoni Honors College", "Sch.of Biomed Engr,Sci & Hlth", "School of Education"]
@@ -73,17 +73,17 @@ def findCourse(target_course, sp1):
             if code:
                 code = code.group(1)
                 if target_course[0] == code:
-                    courses_data = requests.get(
+                    courses_soup = utility.getSoup(
                         BASE_URL + link['href'])
                     print("{} found in {}!\n".format(
                         target_course[0], colleges[checking_college]))
-                    return courses_data
+                    return courses_soup
         print("Not found\n")
-    # if the entire loop runs and value of courses_data remains None, the following line will run. Otherwise it will not.
+    # if the entire loop runs and value of courses_soup remains None, the following line will run. Otherwise it will not.
     sys.exit("Course {} not found.")
 
 
-def findSections(courses_data, target_course):
+def findSections(courses_soup, target_course):
     """
     Checks the page for all elements that match the second part of the target_course e.g. the 101 part in EXMPL 101.
     Multiple elements might have this second part, since there are many classes for one course.
@@ -95,8 +95,9 @@ def findSections(courses_data, target_course):
     1. The data for the page that has information about the first part of target_course e.g. the EXMPL part in EXMPL 101.
         This page has the data for all sections of EXMPL (requests object).
     2. The target_course that the user wants to get notifications for (list of strings).
+
+    Returns: List of URL's of different sections of EXMPL 101 (list)
     """
-    courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
     shortlisted_course_data = []
     shortlisted_course_urls = []
