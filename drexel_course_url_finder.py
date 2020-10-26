@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import sys
+from tabulate import tabulate
 
 BASE_URL = "https://termmasterschedule.drexel.edu"
 PAYLOAD = {'component': 'collSubj',
@@ -38,35 +39,19 @@ def find():
     return(BASE_URL + final_course_url["href"])
 
 
-def printAndInputColleges():
-    """
-    Prints all colleges and asks the user to input the index of the chosen college.
-
-    Arguments: None
-
-    Returns: index of the college chosen by the user (integer)
-    """
-    colleges = {"Antoinette Westphal COMAD": 0,
-                "Arts and Sciences": 1, "Bennett S. LeBow Coll. of Bus.": 2, "Center for Civic Engagement": 3, "Close Sch of Entrepreneurship": 4, "Col of Computing & Informatics": 5, "College of Engineering": 6, "Dornsife Sch of Public Health": 7, "Goodwin Coll of Prof Studies": 8, "Graduate College": 9, "Miscellaneous": 10, "Nursing & Health Professions": 11, "Pennoni Honors College": 12, "Sch.of Biomed Engr,Sci & Hlth": 13, "School of Education": 14}
-    for college, index in colleges.items():
-        print(index, "    ", college)
-    chosen_college = inputIndex(max=len(colleges) - 1)
-    return chosen_college
-
-
 def findCourse(target_course, sp1):
     """
-    Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a 
+    Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a
     unique college assigned to it. For example, sp2=5 means CCI) for the selected season (determined by sp1) and searches
     for the first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to
     the page that contains all sections for the first part of the course code so that the second part of the course
     code can be found at that page. Returns the data received by going to the page.
 
-    Arguments: 
-    1. The course that the user wants to find e.g. EXMPL 101 (list of strings) 
+    Arguments:
+    1. The course that the user wants to find e.g. EXMPL 101 (list of strings)
     2. The part of the url that determines the quarter season aka sp1 (string)
 
-    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object). 
+    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object).
     """
     courses_data = None
     for checking_college in range(15):
@@ -96,18 +81,17 @@ def findSections(courses_data, target_course):
     """
     Checks the page for all elements that match the second part of the target_course e.g. the 101 part in EXMPL 101.
     Multiple elements might have this second part, since there are many classes for one course.
-    Prints all the data of the elements that match the second part. 
+    Prints all the data of the elements that match the second part.
     Returns the URLs of the pages of all classes that match the target_course.
     Does not ask the user to input the class they want despite printing all the classes.
 
     Arguments:
     1. The data for the page that has information about the first part of target_course e.g. the EXMPL part in EXMPL 101.
         This page has the data for all sections of EXMPL (requests object).
-    2. The target_course that the user wants to get notifications for (list of strings). 
+    2. The target_course that the user wants to get notifications for (list of strings).
     """
     courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
-
     shortlisted_course_data = []
     shortlisted_course_urls = []
     for row in table_rows:
@@ -127,13 +111,13 @@ def findSections(courses_data, target_course):
         # remove empty elements
         while '' in info:
             info.remove('')
+        for index, element in enumerate(info):
+            info[index] = element + "\n "
         aesthetic_course_data.append(info)
 
-    for index, aesthetic_course_data in enumerate(aesthetic_course_data):
-        print(index, end="  ")
-        for data in aesthetic_course_data:
-            print(data, end="  ")
-        print()
+    print(tabulate(aesthetic_course_data, showindex=True))
+    print()
+    print()
     return shortlisted_course_urls
 
 
@@ -154,12 +138,14 @@ def printAndFindSeasonSP1():
     links = soup.select("a")
 
     seasons_links = []
+    seasons = []
     for link in links:
         if "Quarter" in link.get_text():
             seasons_links.append(link)
-            print(len(seasons_links) - 1, link.get_text())
-
+            # print(len(seasons_links) - 1, link.get_text())
+            seasons.append([link.get_text()])
     print()
+    print(tabulate(seasons, headers=["Index", "Seasons"], showindex=True))
     season_choice_index = inputIndex(max=len(seasons_links) - 1)
     final_link = seasons_links[season_choice_index]['href']
 
