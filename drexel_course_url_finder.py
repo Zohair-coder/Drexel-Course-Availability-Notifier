@@ -57,13 +57,10 @@ def findCourse(target_course, sp1):
     colleges = ["Antoinette Westphal COMAD",
                 "Arts and Sciences", "Bennett S. LeBow Coll. of Bus.", "Center for Civic Engagement", "Close Sch of Entrepreneurship", "Col of Computing & Informatics", "College of Engineering", "Dornsife Sch of Public Health", "Goodwin Coll of Prof Studies", "Graduate College", "Miscellaneous", "Nursing & Health Professions", "Pennoni Honors College", "Sch.of Biomed Engr,Sci & Hlth", "School of Education"]
     for checking_college in range(15):
-
         print("Checking for {} in {}...".format(
             target_course[0], colleges[checking_college]))
         sp2 = "sp={}".format(checking_college)
-        college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
-            BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
-
+        college_url = getCollegeUrl(sp1, sp2)
         college_soup = utility.getSoup(college_url)
 
         links = college_soup.select("a")
@@ -166,6 +163,11 @@ def printAndFindSeasonSP1():
         if 'sp' in variable:
             sp1 = variable
     return sp1
+
+
+def getCollegeUrl(sp1, sp2):
+    return "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
+        BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
 
 
 if __name__ == "__main__":
