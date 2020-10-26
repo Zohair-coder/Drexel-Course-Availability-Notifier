@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import sys
+from tabulate import tabulate
 
 BASE_URL = "https://termmasterschedule.drexel.edu"
 PAYLOAD = {'component': 'collSubj',
@@ -40,17 +41,17 @@ def find():
 
 def findCourse(target_course, sp1):
     """
-    Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a 
+    Goes to every college's page (determined by sp2, which is an integer from 0-14. Every number from 0-14 has a
     unique college assigned to it. For example, sp2=5 means CCI) for the selected season (determined by sp1) and searches
     for the first part of the course code (e.g. for EXMPL 101, it searches for EXMPL). Once this is found, it goes to
     the page that contains all sections for the first part of the course code so that the second part of the course
     code can be found at that page. Returns the data received by going to the page.
 
-    Arguments: 
-    1. The course that the user wants to find e.g. EXMPL 101 (list of strings) 
+    Arguments:
+    1. The course that the user wants to find e.g. EXMPL 101 (list of strings)
     2. The part of the url that determines the quarter season aka sp1 (string)
 
-    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object). 
+    Returns: The data of the page that contains all the sections of the first part of the target_course (requests object).
     """
     courses_data = None
     for checking_college in range(15):
@@ -80,14 +81,14 @@ def findSections(courses_data, target_course):
     """
     Checks the page for all elements that match the second part of the target_course e.g. the 101 part in EXMPL 101.
     Multiple elements might have this second part, since there are many classes for one course.
-    Prints all the data of the elements that match the second part. 
+    Prints all the data of the elements that match the second part.
     Returns the URLs of the pages of all classes that match the target_course.
     Does not ask the user to input the class they want despite printing all the classes.
 
     Arguments:
     1. The data for the page that has information about the first part of target_course e.g. the EXMPL part in EXMPL 101.
         This page has the data for all sections of EXMPL (requests object).
-    2. The target_course that the user wants to get notifications for (list of strings). 
+    2. The target_course that the user wants to get notifications for (list of strings).
     """
     courses_soup = BeautifulSoup(courses_data.content, "html.parser")
     table_rows = courses_soup.select("tr")
@@ -105,19 +106,22 @@ def findSections(courses_data, target_course):
             target_course[0], target_course[1]))
 
     aesthetic_course_data = []
-    for info in shortlisted_course_data:
+    for index, info in enumerate(shortlisted_course_data):
         info = info.split("\n")
         while '' in info:
             info.remove('')
+        info.insert(0, index)
         aesthetic_course_data.append(info)
 
-    print("\nIndex      Course Data\n")
-    for index, aesthetic_course_data in enumerate(aesthetic_course_data):
-        print(index, end="          ")
-        for data in aesthetic_course_data:
-            print(data, end="  ")
-        print()
-        print()
+    print(tabulate(aesthetic_course_data))
+
+    # print("\nIndex      Course Data\n")
+    # for index, aesthetic_course_data in enumerate(aesthetic_course_data):
+    #     print(index, end="          ")
+    #     for data in aesthetic_course_data:
+    #         print(data, end="  ")
+    print()
+    print()
     return shortlisted_course_urls
 
 
@@ -138,12 +142,14 @@ def printAndFindSeasonSP1():
     links = soup.select("a")
 
     seasons_links = []
+    seasons = []
     for link in links:
         if "Quarter" in link.get_text():
             seasons_links.append(link)
-            print(len(seasons_links) - 1, link.get_text())
-
+            # print(len(seasons_links) - 1, link.get_text())
+            seasons.append([len(seasons_links) - 1, link.get_text()])
     print()
+    print(tabulate(seasons, headers=["Index", "Seasons"]))
     season_choice_index = inputIndex(max=len(seasons_links) - 1)
     final_link = seasons_links[season_choice_index]['href']
 
