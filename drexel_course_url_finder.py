@@ -108,9 +108,13 @@ def findSections(courses_data, target_course):
     aesthetic_course_data = []
     for info in shortlisted_course_data:
         info = info.split("\n")
+
         # remove empty elements
         while '' in info:
             info.remove('')
+
+        # add a newline character at the end of every data element so that when it is tabulated,
+        #  there is an empty row between two rows, making the table easier to read
         for index, element in enumerate(info):
             info[index] = element + "\n "
         aesthetic_course_data.append(info)
