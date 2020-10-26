@@ -114,12 +114,6 @@ def findSections(courses_data, target_course):
         aesthetic_course_data.append(info)
 
     print(tabulate(aesthetic_course_data, showindex=True))
-
-    # print("\nIndex      Course Data\n")
-    # for index, aesthetic_course_data in enumerate(aesthetic_course_data):
-    #     print(index, end="          ")
-    #     for data in aesthetic_course_data:
-    #         print(data, end="  ")
     print()
     print()
     return shortlisted_course_urls
