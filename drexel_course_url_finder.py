@@ -51,12 +51,13 @@ def findCourse(target_course, sp1):
     1. The course that the user wants to find e.g. EXMPL 101 (list of strings)
     2. The part of the url that determines the quarter season aka sp1 (string)
 
-    Returns: The data of the page that contains all the sections of the first part of the target_course (BeautifulSoup object).
+    Returns: The soup of the page that contains all the sections of the first part of the target_course (BeautifulSoup object).
     """
     courses_soup = None
+    colleges = ["Antoinette Westphal COMAD",
+                "Arts and Sciences", "Bennett S. LeBow Coll. of Bus.", "Center for Civic Engagement", "Close Sch of Entrepreneurship", "Col of Computing & Informatics", "College of Engineering", "Dornsife Sch of Public Health", "Goodwin Coll of Prof Studies", "Graduate College", "Miscellaneous", "Nursing & Health Professions", "Pennoni Honors College", "Sch.of Biomed Engr,Sci & Hlth", "School of Education"]
     for checking_college in range(15):
-        colleges = ["Antoinette Westphal COMAD",
-                    "Arts and Sciences", "Bennett S. LeBow Coll. of Bus.", "Center for Civic Engagement", "Close Sch of Entrepreneurship", "Col of Computing & Informatics", "College of Engineering", "Dornsife Sch of Public Health", "Goodwin Coll of Prof Studies", "Graduate College", "Miscellaneous", "Nursing & Health Professions", "Pennoni Honors College", "Sch.of Biomed Engr,Sci & Hlth", "School of Education"]
+
         print("Checking for {} in {}...".format(
             target_course[0], colleges[checking_college]))
         sp2 = "sp={}".format(checking_college)
