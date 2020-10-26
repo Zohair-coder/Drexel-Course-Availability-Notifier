@@ -38,7 +38,7 @@ In the working directory, open up a terminal and type:
 python main.py
 ```
 
-And follow the prompts. The program will send a confirmation email to make sure you can receive emails at the email you input. It will then continue to check if a seat for your selected course is available. If it is not, it'll display "CLOSED" on the terminal. When a seat is a available, it'll send an email to inform you.
+And follow the prompts. The program will send a confirmation email to make sure you can receive emails at the email you input. It will then continue to check if a seat for your selected course is available. If it is not, it'll display "CLOSED" on the terminal. When a seat is available, it'll send an email to inform you.
 
 ## To-do
 
