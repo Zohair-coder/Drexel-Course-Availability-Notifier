@@ -26,9 +26,8 @@ def find():
     # creates list with first element containing code string and second element containing code number
     target_course = utility.inputCourse()
     print(
-        "Finding all {} courses... (wait a moment)".format(target_course[0]))
+        "Finding all {} courses... \n".format(target_course[0]))
     courses_data = findCourse(target_course, sp1)
-    print("Done.")
     print("Finding all sections of {} {}...".format(
         target_course[0], target_course[1]))
     shortlisted_urls = findSections(courses_data, target_course)
@@ -56,6 +55,10 @@ def findCourse(target_course, sp1):
     """
     courses_data = None
     for checking_college in range(15):
+        colleges = ["Antoinette Westphal COMAD",
+                    "Arts and Sciences", "Bennett S. LeBow Coll. of Bus.", "Center for Civic Engagement", "Close Sch of Entrepreneurship", "Col of Computing & Informatics", "College of Engineering", "Dornsife Sch of Public Health", "Goodwin Coll of Prof Studies", "Graduate College", "Miscellaneous", "Nursing & Health Professions", "Pennoni Honors College", "Sch.of Biomed Engr,Sci & Hlth", "School of Education"]
+        print("Checking for {} in {}...".format(
+            target_course[0], colleges[checking_college]))
         sp2 = "sp={}".format(checking_college)
         college_url = "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
             BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
@@ -73,9 +76,12 @@ def findCourse(target_course, sp1):
                 if target_course[0] == code:
                     courses_data = requests.get(
                         BASE_URL + link['href'])
+                    print("{} found in {}!\n".format(
+                        target_course[0], colleges[checking_college]))
                     return courses_data
+        print("Not found\n")
     # if the entire loop runs and value of courses_data remains None, the following line will run. Otherwise it will not.
-    sys.exit("Course {} not found.".format(target_course[0]))
+    sys.exit("Course {} not found.")
 
 
 def findSections(courses_data, target_course):
