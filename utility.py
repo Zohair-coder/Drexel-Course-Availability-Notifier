@@ -44,7 +44,7 @@ def inputCourse():
     while not isValid:
         course = input("Please enter the course code (EXMPL 101): ")
         course = course.split()
-        if len(course) == 2 and course[0].isalpha() and course[1].isnumeric():
+        if len(course) == 2 and course[0].isalpha() and course[1].isalnum():
             isValid = True
         else:
             print("Invalid input.")
