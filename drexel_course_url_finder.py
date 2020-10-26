@@ -120,9 +120,11 @@ def findSections(courses_data, target_course):
         sys.exit("No sections found for your course {} {} were found.".format(
             target_course[0], target_course[1]))
 
+    # a list that holds the same data as shortlisted_course_data but in a better formatted way
     aesthetic_course_data = []
     for info in shortlisted_course_data:
         info = info.split("\n")
+        # remove empty elements
         while '' in info:
             info.remove('')
         aesthetic_course_data.append(info)
