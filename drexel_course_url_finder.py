@@ -109,6 +109,8 @@ def findSections(courses_data, target_course):
         info = info.split("\n")
         while '' in info:
             info.remove('')
+        for index, element in enumerate(info):
+            info[index] = element + "\n "
         aesthetic_course_data.append(info)
 
     print(tabulate(aesthetic_course_data, showindex=True))
