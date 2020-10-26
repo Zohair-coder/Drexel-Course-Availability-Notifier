@@ -26,7 +26,7 @@ pip install requests bs4 ssl email tabulate
 
 ## Usage
 
-![GIF of program usage](https://media.giphy.com/media/schUdfC2WqnWlZ6RD4/giphy.gif)
+![Image of program usage](https://i.imgur.com/8xi3Bi6.png)
 
 In the working directory, open up a terminal and type:
 
