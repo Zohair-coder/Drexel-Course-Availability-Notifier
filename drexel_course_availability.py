@@ -14,7 +14,7 @@ def Notifier(url):
     soup = utility.getSoup(url)
     # send an email to let the user know that everything is working in order
     message = "You have started the Drexel Course Availability program. You will receive updates on {} {} every {} hours.".format(
-        getData("Subject Code", soup), getData("Course Number", soup), utility.NOTIFY_IN)
+        utility.getData("Subject Code", soup), utility.getData("Course Number", soup), utility.NOTIFY_IN)
     utility.sendMessage("Course Availability Email",
                         message)
     print("Checking for available seats every {} seconds...".format(
@@ -22,9 +22,9 @@ def Notifier(url):
     while True:
         soup = utility.getSoup(url)
 
-        course = getData("Subject Code", soup) + " " + \
-            getData("Course Number", soup)
-        status = getData("Enroll", soup)
+        course = utility.getData("Subject Code", soup) + " " + \
+            utility.getData("Course Number", soup)
+        status = utility.getData("Enroll", soup)
 
         message = "\nStatus of " + course + ": " + status
         if status == "CLOSED":
@@ -32,7 +32,7 @@ def Notifier(url):
             print()
         else:
             message += " of {} seats filled".format(
-                getData("Max Enroll", soup))
+                utility.getData("Max Enroll", soup))
             subject = "Seats for {} Available".format(course)
             print(message)
             utility.sendMessage(subject, message)
@@ -59,15 +59,6 @@ def updateNotification(begin_time, message, course):
         print("Update sent")
         return True
     return False
-
-
-def getData(data, soup):
-    status = "CLOSED"
-    table_data = soup.select("td")
-    for td in table_data:
-        if td.get_text() == data:
-            status = td.findNext('td').get_text()
-    return status
 
 
 def main():

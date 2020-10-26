@@ -115,6 +115,15 @@ def getSoup(url):
     return soup
 
 
+def getData(data, soup):
+    status = "CLOSED"
+    table_data = soup.select("td")
+    for td in table_data:
+        if td.get_text() == data:
+            status = td.findNext('td').get_text()
+    return status
+
+
 PORT = 465  # For SSL
 CONTEXT = ssl.create_default_context()  # required for sendMail function
 CONFIG = getConfig()
