@@ -44,7 +44,7 @@ And follow the prompts. The program will send a confirmation email to make sure 
 
 - Find a way to log-in to one.drexel.edu and check the class status in real time instead of relying on the Term Master website which gets updated every few hours.
 - Explore whether there's a way to register for the selected class automatically when a seat is available.
-- Avoid enabling access for "less secure apps" somehow.
+- Avoid enabling access for "less secure apps" for sending emails through Google somehow.
 - Add more comments to the code.
 
 ## Contributing
