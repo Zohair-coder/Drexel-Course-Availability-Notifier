@@ -93,7 +93,8 @@ def sendMessage(subject, message):
                                 message.as_string())
                 sent = True
         except smtplib.SMTPAuthenticationError:
-            sys.exit("Invalid email login information, please check the CONFIG file. Exiting...")
+            sys.exit(
+                "Invalid email login credentials. Please check the CONFIG.txt file. Exiting...")
         except:
             print("Error while sending email. Trying again in 10 seconds")
             sleep(10)
