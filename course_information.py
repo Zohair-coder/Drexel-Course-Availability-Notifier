@@ -7,7 +7,7 @@ in your terminal.
 """
 
 
-import drexel_course_url_finder
+import course_url_finder
 import utility
 from tabulate import tabulate
 
@@ -20,7 +20,7 @@ def getTimeAndDays(soup):
     return None
 
 
-url = drexel_course_url_finder.find()
+url = course_url_finder.find()
 soup = utility.getSoup(url)
 
 
