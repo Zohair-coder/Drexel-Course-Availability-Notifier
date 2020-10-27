@@ -60,6 +60,7 @@ def findCourse(target_course, sp1):
         print("Checking for {} in {}...".format(
             target_course[0], colleges[checking_college]))
         sp2 = "sp={}".format(checking_college)
+
         college_url = getCollegeUrl(sp1, sp2)
         college_soup = utility.getSoup(college_url)
 
@@ -109,21 +110,8 @@ def findSections(courses_soup, target_course):
         sys.exit("No sections found for your course {} {} were found.".format(
             target_course[0], target_course[1]))
 
-    # a list that holds the same data as shortlisted_course_data but in a better formatted way
-    aesthetic_course_data = []
-    for info in shortlisted_course_data:
-        info = info.split("\n")
-
-        # remove empty elements
-        while '' in info:
-            info.remove('')
-
-        # add a newline character at the end of every data element so that when it is tabulated,
-        #  there is an empty row between two rows, making the table easier to read
-        for index, element in enumerate(info):
-            info[index] = element + "\n "
-        aesthetic_course_data.append(info)
-
+    # a list that holds the same data as shortlisted_course_data but in a human readable formatted way
+    aesthetic_course_data = getFormattedCourseData(shortlisted_course_data)
     print(tabulate(aesthetic_course_data, showindex=True))
     print()
     print()
@@ -168,6 +156,23 @@ def printAndFindSeasonSP1():
 def getCollegeUrl(sp1, sp2):
     return "{BASE_URL}/webtms_du/app?{COMPONENT}&{PAGE}&{SERVICE}&{sp1}&{sp2}".format(
         BASE_URL=BASE_URL, COMPONENT=COMPONENT, PAGE=PAGE, SERVICE=SERVICE, sp1=sp1, sp2=sp2)
+
+
+def getFormattedCourseData(course_data):
+    aesthetic_course_data = []
+    for info in course_data:
+        info = info.split("\n")
+
+        # remove empty elements
+        while '' in info:
+            info.remove('')
+
+        # add a newline character at the end of every data element so that when it is tabulated,
+        #  there is an empty row between two rows, making the table easier to read
+        for index, element in enumerate(info):
+            info[index] = element + "\n "
+        aesthetic_course_data.append(info)
+    return aesthetic_course_data
 
 
 if __name__ == "__main__":
