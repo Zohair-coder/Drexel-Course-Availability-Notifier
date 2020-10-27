@@ -68,7 +68,7 @@ def getConfig():
         configuration_text = open("CONFIG.txt", "r")
     except:
         raise Exception(
-            'CONFIG.txt not found. Are you sure you renamed CONFIG_DEV.txt to CONFIG.txt before starting the program?')
+            'CONFIG.txt not found. Are you sure you renamed CONFIG.txt to CONFIG.txt before starting the program?')
     configuration_list = []
     for info in configuration_text.readlines():
         # separate the prompt from the value in CONFIG.txt. Remove the \n at the end.
@@ -91,6 +91,9 @@ def sendMessage(subject, message):
                 server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL,
                                 message.as_string())
                 sent = True
+        except smtplib.SMTPAuthenticationError:
+            print("Invalid email login information, please check the CONFIG file. Exiting...")
+            quit(1)
         except:
             print("Error while sending email. Trying again in 10 seconds")
             sleep(10)
