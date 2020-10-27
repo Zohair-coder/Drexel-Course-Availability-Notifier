@@ -68,7 +68,7 @@ def getConfig():
         configuration_text = open("CONFIG.txt", "r")
     except:
         raise Exception(
-            'CONFIG.txt not found. Are you sure you renamed CONFIG.txt to CONFIG.txt before starting the program?')
+            'CONFIG.txt not found. Are you sure you renamed CONFIG_DEV.txt to CONFIG.txt before starting the program?')
     configuration_list = []
     for info in configuration_text.readlines():
         # separate the prompt from the value in CONFIG.txt. Remove the \n at the end.
