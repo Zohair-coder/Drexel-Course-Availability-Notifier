@@ -4,6 +4,7 @@ import ssl
 from time import sleep
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 
 def inputIndex(max=float('inf')):
@@ -91,6 +92,8 @@ def sendMessage(subject, message):
                 server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL,
                                 message.as_string())
                 sent = True
+        except smtplib.SMTPAuthenticationError:
+            sys.exit("Invalid email login information, please check the CONFIG file. Exiting...")
         except:
             print("Error while sending email. Trying again in 10 seconds")
             sleep(10)
