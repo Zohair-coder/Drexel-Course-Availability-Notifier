@@ -1,6 +1,6 @@
 # Drexel Course Availability Checker
 
-We all dread registration day at Drexel. Almost always our chosen schedule gets ruined because some class gets filled up and its difficult to find a replacement class. Everything is too stressful.
+We all dread registration day at Drexel. Almost always our chosen schedule gets ruined because some class gets filled up and its difficult to find a replacement class. It's all so stressful.
 
 But to relieve some of your stress, this program will let you escape the whole process of refreshing Drexel Term Master Schedule every hour to find an available seat for the class you want. As soon as an open seat shows up for your class, the program will send you an email so you can quickly go ahead and register before someone else takes your place!
 
