@@ -31,8 +31,8 @@ def Notifier(url):
             print("Status {}: {}".format(course, status))
             print()
         else:
-            message += " of {} seats filled".format(
-                utility.getData("Max Enroll", soup))
+            message += " of {} seats filled.\n\nRegister at {}".format(
+                utility.getData("Max Enroll", soup), utility.REG_LINK)
             subject = "Seats for {} Available".format(course)
             print(message)
             utility.sendMessage(subject, message)

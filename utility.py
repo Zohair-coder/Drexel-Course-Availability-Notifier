@@ -139,3 +139,4 @@ RECEIVER_EMAIL = CONFIG[2]
 NOTIFY_IN = int(CONFIG[3])
 # check the Drexel website every CHECK_EVERY amount of seconds
 CHECK_EVERY = int(CONFIG[4])
+REG_LINK = "https://banner.drexel.edu/registration/ssb/term/termSelection?mode=registration"
