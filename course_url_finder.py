@@ -28,8 +28,6 @@ def find():
     print(
         "Finding all {} courses... \n".format(target_course[0]))
     courses_soup = findCourse(target_course, sp1)
-    print("Finding all sections of {} {}...".format(
-        target_course[0], target_course[1]))
     shortlisted_urls = findSections(courses_soup, target_course)
     print("Done.")
 
@@ -72,10 +70,15 @@ def findCourse(target_course, sp1):
             if code:
                 code = code.group(1)
                 if target_course[0] == code:
-                    courses_soup = utility.getSoup(
-                        BASE_URL + link['href'])
+
                     print("{} found in {}!\n".format(
                         target_course[0], colleges[checking_college]))
+
+                    print("Finding all sections of {} {}...".format(
+                        target_course[0], target_course[1]))
+                    courses_soup = utility.getSoup(
+                        BASE_URL + link['href'])
+
                     return courses_soup
         print("Not found\n")
     # if the entire loop runs and value of courses_soup remains None, the following line will run. Otherwise it will not.
