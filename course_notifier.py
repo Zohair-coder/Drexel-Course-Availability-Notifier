@@ -10,6 +10,7 @@ import utility
 def Notifier(url):
     # start counting the time
     begin_time = datetime.datetime.now()
+    # fake
 
     soup = utility.getSoup(url)
     # send an email to let the user know that everything is working in order
