@@ -18,7 +18,6 @@ def getTimeAndDays(soup):
         if td.get_text()[-2:] == "pm" or td.get_text()[-2:] == "am":
             return td.get_text() + " - " + td.findNext('td').get_text()
     return None
-    # fake comment
 
 
 url = course_url_finder.find()
